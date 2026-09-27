@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANNIVERSARY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset and Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #fdf0f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden; /* Keeps floating photos inside screen */
+      position: relative;
+      padding: 20px;
+    }
+
+    /* -------------------------------------------
+       FLOATING BACKGROUND PHOTOS
+    ------------------------------------------- */
+    .bg-photos-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .photo-card {
+      position: absolute;
+      bottom: -200px;
+      width: 110px;
+      height: 130px;
+      background: #fff;
+      padding: 8px 8px 25px 8px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      opacity: 0.7;
+      animation: floatUp 16s linear infinite;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.65;
+      }
+      50% {
+        transform: translateY(-50vh) rotate(12deg);
+      }
+      90% {
+        opacity: 0.65;
+      }
+      100% {
+        transform: translateY(-115vh) rotate(-10deg);
+        opacity: 0;
+      }
+    }
+
+    .photo-card:nth-child(1)  { left: 2%;  animation-duration: 18s; animation-delay: 0s; }
+    .photo-card:nth-child(2)  { left: 8%;  animation-duration: 22s; animation-delay: 5s; }
+    .photo-card:nth-child(3)  { left: 14%; animation-duration: 16s; animation-delay: 10s; }
+    .photo-card:nth-child(4)  { left: 20%; animation-duration: 20s; animation-delay: 2s; }
+    .photo-card:nth-child(5)  { left: 26%; animation-duration: 24s; animation-delay: 8s; }
+    .photo-card:nth-child(6)  { left: 32%; animation-duration: 17s; animation-delay: 13s; }
+    .photo-card:nth-child(7)  { left: 38%; animation-duration: 21s; animation-delay: 4s; }
+    .photo-card:nth-child(8)  { left: 44%; animation-duration: 19s; animation-delay: 11s; }
+    .photo-card:nth-child(9)  { left: 50%; animation-duration: 23s; animation-delay: 1s; }
+    .photo-card:nth-child(10) { left: 56%; animation-duration: 16s; animation-delay: 7s; }
+    .photo-card:nth-child(11) { left: 62%; animation-duration: 25s; animation-delay: 14s; }
+    .photo-card:nth-child(12) { left: 68%; animation-duration: 18s; animation-delay: 3s; }
+    .photo-card:nth-child(13) { left: 74%; animation-duration: 22s; animation-delay: 9s; }
+    .photo-card:nth-child(14) { left: 80%; animation-duration: 17s; animation-delay: 15s; }
+    .photo-card:nth-child(15) { left: 86%; animation-duration: 20s; animation-delay: 6s; }
+    .photo-card:nth-child(16) { left: 92%; animation-duration: 24s; animation-delay: 12s; }
+    .photo-card:nth-child(17) { left: 5%;  animation-duration: 19s; animation-delay: 16s; }
+    .photo-card:nth-child(18) { left: 28%; animation-duration: 21s; animation-delay: 17s; }
+
+    /* -------------------------------------------
+       FOREGROUND CONTENT
+    ------------------------------------------- */
+    .content-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      color: #7a2b43;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+    }
+
+    .instruction {
+      margin-bottom: 25px;
+      color: #9c516c;
+      font-size: 1.1rem;
+      text-align: center;
+      transition: opacity 0.3s;
+    }
+
+    /* Envelope Styles */
+    .envelope-wrapper {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: #f7a8b8;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 10px 20px rgba(184, 80, 110, 0.25);
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-top: 120px solid #ee8f9f;
+      transform-origin: top;
+      transition: transform 0.5s ease-in-out, z-index 0.5s;
+      z-index: 3;
+    }
+
+    .pocket {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 160px solid #f29dae;
+      border-right: 160px solid #f29dae;
+      border-bottom: 110px solid #e07f93;
+      border-top: 110px solid transparent;
+      border-radius: 0 0 10px 10px;
+      z-index: 3;
+    }
+
+    /* Letter inside envelope */
+    .letter {
+      position: absolute;
+      bottom: 10px;
+      left: 20px;
+      width: 280px;
+      height: 190px;
+      background: #ffffff;
+      border-radius: 6px;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.6s ease-in-out, z-index 0.6s, height 0.6s;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .letter-content {
+      overflow-y: auto;
+      max-height: 100%;
+      padding-right: 5px;
+    }
+
+    .letter-content::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .letter-content::-webkit-scrollbar-thumb {
+      background-color: #f7a8b8;
+      border-radius: 3px;
+    }
+
+    .letter h2 {
+      font-size: 1.2rem;
+      color: #7a2b43;
+      margin-bottom: 10px;
+      font-family: Georgia, serif;
+    }
+
+    .letter p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      margin-bottom: 10px;
+    }
+
+    .letter .signature {
+      text-align: right;
+      font-style: italic;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #7a2b43;
+    }
+
+    /* Open State Animations */
+    .envelope-wrapper.open .flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-wrapper.open .letter {
+      transform: translateY(-130px);
+      z-index: 4;
+      height: 260px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* -------------------------------------------
+       FLOATING MUSIC TOGGLE BUTTON
+    ------------------------------------------- */
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: #ee8f9f;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .music-btn:hover {
+      background: #e07f93;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND MOVING PICTURES -->
+  <div class="bg-photos-container">
+    <div class="photo-card"><img src="pics/first.jpg" alt="Memory 1"></div>
+    <div class="photo-card"><img src="pics/second.jpg" alt="Memory 2"></div>
+    <div class="photo-card"><img src="pics/third.jpeg" alt="Memory 3"></div>
+    <div class="photo-card"><img src="pics/fourth.jpg" alt="Memory 4"></div>
+    <div class="photo-card"><img src="pics/fifth.jpeg" alt="Memory 5"></div>
+    <div class="photo-card"><img src="pics/sixth.jpeg" alt="Memory 6"></div>
+    <div class="photo-card"><img src="pics/seven.jpeg" alt="Memory 7"></div>
+    <div class="photo-card"><img src="pics/eight.jpeg" alt="Memory 8"></div>
+    <div class="photo-card"><img src="pics/nine.jpeg" alt="Memory 9"></div>
+    <div class="photo-card"><img src="pics/ten.jpeg" alt="Memory 10"></div>
+    <div class="photo-card"><img src="pics/eleven.jpeg" alt="Memory 11"></div>
+    <div class="photo-card"><img src="pics/twelve.jpeg" alt="Memory 12"></div>
+    <div class="photo-card"><img src="pics/thirteen.jpeg" alt="Memory 13"></div>
+    <div class="photo-card"><img src="pics/fourteen.jpeg" alt="Memory 14"></div>
+    <div class="photo-card"><img src="pics/fifteen.jpeg" alt="Memory 15"></div>
+    <div class="photo-card"><img src="pics/sixteen.jpg" alt="Memory 16"></div>
+    <div class="photo-card"><img src="pics/seventeen.jpg" alt="Memory 17"></div>
+    <div class="photo-card"><img src="pics/eighteen.jpg" alt="Memory 18"></div>
+  </div>
+
+  <!-- FOREGROUND CONTENT -->
+  <div class="content-container">
+    <h1>HAPPY ANNIVERSARY, LOVE</h1>
+    <div class="instruction" id="instruction">🩷🩷🩷</div>
+
+    <div class="envelope-wrapper" id="envelopeWrapper">
+      <div class="envelope">
+        <div class="flap"></div>
+        <div class="letter">
+          <div class="letter-content" id="letterContent">
+            <h2>Love,</h2>
+            <p>
+              HAPPY 63,158,400seconds 1,052,640minutes,17,544hours, 736days, 24months, and 2 YEARS OF BEING IN LOVE WITH EACH OTHER, BABYY!! I won't say nga I can't imagine nga we've come this far kay I really imagined this and for the rest of our lifetime that we will be spending together. And since this is our 2nd year anniversary nga wala ta nagkuyog, I'm hoping that this message would make you feel less sad that we're not together na sad on our special day. 
+            </p>
+            <p>
+              I love you very much, my lovee. I love you infinitely, more infinite than the linear line in a cartercian plane, more than the value of pie, infinite than the life of the universe. I love every bits of you; I love your cute nose, tiny eyes, pretty lips, chubby cheeks, and wavy hair. I love you with all your scars, stretchmarks, skin hair, pimples, armpits, sweats, and all your other insecurities, because it may be ugly sa imo, but they are the prettiest thing for me to look at. I love your humour, your laugh, your face when you're so happy, your face pag napikon, and your regular face heheheh. I love you for who you are, from your uncut toenails from your unbrushed hair. I love everything about you, including your past, your present, and I will also love your future, especially because you're gonna spend it with me. I love you and I will keep loving you until my breath lasts. I also want to say how much I adore you, your skills, talent, and capabilities. I love watching you dancing, especially siguro when you're sexy dancing in front of me ;⁠-⁠). I love how you're striving to do better sa butang nga bisan dili nimo ganahan. I love how patient you are with me (sa ako ra sad jud nua). I love how caring, loving, and affectionate girldfriend you are. I cannot stop thanking the world that it allowed us to meet and be together. I really love you, and all I know now is I cannot live the rest of my life without you. You've been my go-to-person whenever things became so heavy for me, and whenever I did something amazing. You've been my constant, my safe place, my comfort zone, basically MY PERSON. 
+            </p>
+            <p>Don't ever think na nga ilisan ra tikag mas duol, kay I don't want anyone bisan duol pa na if its not you. I am so in love with you to the point nga the cringest things for me before kay nabuhat na nako now. Every music that I listened kay ikaw ra ako hunahunaon. Every dreams for myself, kay the half of it is for you. Everytime bad ako day, ikaw ra ako ganahan saputan og mag pakaluoy para imo i baby. All I need is you, and all I want is you. Ikaw ra jud through ups and downs. Ikaw ang last 7 seconds og simbako ma wala ko. Ikaw ra jud ang reason why I'm still alive. You've saved me in a way that you didn't know you did. You made me wonder what life would be years from now. You made me get up on my feet again to survive and fight for what life has for me. You made me strong each day that you're not, because I want to be your shelter and shoulder to lean on whenever things are so heavy for you to carry. You made me believe that there's still more to live when I'll look for it. And with that, I cannot live you just because you're far from here. It's not easy to let you go, and that's why I'm still here. And I hope you'll carry with this everyday, that I love you so much. </p>
+            <p>
+              Thank you for coming into my life, love. Thank you for being the sunlight that I needed when I was hiding in the darkness. Thank you for being the person who literally saved me from dying. Thank you for always being there, especially during the times that I needed you the most. Thank you for helping me sa tanan nimo kaya ihelp, I couldn't imagine what life would be if wala koy ikaw. Thank you for making me smile especially during those times nga I am sad. Thank you for continuously comforting me, bisan struggle kaayo na for you. Thank you sa tanan sacrifices, especially in financial paras akoa kaayuhan. Thank you kaayo for coming into my life, mahal.
+            </p>
+           <p>And as we start another year together, I only have one wish: to be happy with you for the rest of our lives. I dreamed of having a comfortable life with you, nga naay nice nga balay, kayutaan, businesses, 7 digits savings sa bank, successful career, and a happy family. I promise to continue striving para mahatag ko na sa imo, and makab-ot ta na tanan together. I promise to always do my best in everything para mo succeed and maachieve atu goals in life. I do not dream of having a nice life alone, nor with someone else, but you. So please stay with me through ups and downs, even sa times nga lisod paras atua. I promise to always fix things with you, and to always choose us. Our current situation may be difficult for us, especially og naa tay misunderstanding, but we'll do our best para malampos ni ha? I miss you so much, and how I hope nga naa raka always with me. But life is not like that for us, at least not yet, so I hope we'll conquer everything that may come in our way karon sa atu situation. Hapit naman, and soon we will look back ani nga time proudly on how we conquer it together. 
+I will do my best to give you the peace of mind that you deserved, to give you the kind lf love that you wanted, and to shower you with all the assurance that you need. I love you so much, my loveee. And kauban ana kay ang mahatagan tika og kinabuhi nga dili makapasakit nimo, but makahatag nimog kalipay, kalinaw, og walay katapusan nga gugma, char HAHAHAHAHHA. HAPPY ANNIVERSARY, BABYYYY. I LOVE YOUUUUU SO MUCHHHH!!! HERE'S TO MORE YEARS TOGETHER!!And goodluck sa studiesss, padayon future CPA of a future CPA😘. </p>
+            <p class="signature">- Your Wife</p>
+          </div>
+        </div>
+        <div class="pocket"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKGROUND AUDIO ELEMENT -->
+  <audio id="bgMusic" loop>
+    <!-- Romantic Instrumental Audio Track -->
+    <source src="music/intertwine.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- MUSIC TOGGLE BUTTON -->
+  <button class="music-btn" id="musicBtn">🎵 Play Music</button>
+
+  <script>
+    const envelopeWrapper = document.getElementById('envelopeWrapper');
+    const instruction = document.getElementById('instruction');
+    const letterContent = document.getElementById('letterContent');
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+
+    let isOpen = false;
+    let isPlaying = false;
+
+    // Toggle Music function
+    function toggleMusic() {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = '🎵 Play Music';
+        isPlaying = false;
+      } else {
+        bgMusic.play().then(() => {
+          musicBtn.textContent = '⏸️ Pause Music';
+          isPlaying = true;
+        }).catch(err => {
+          console.log("Autoplay prevented:", err);
+        });
+      }
+    }
+
+    // Toggle Music on Button Click
+    musicBtn.addEventListener('click', toggleMusic);
+
+    // Envelope Click Event
+    envelopeWrapper.addEventListener('click', (event) => {
+      if (event.target.closest('.letter-content') && isOpen) {
+        return;
+      }
+
+      isOpen = !isOpen;
+
+      if (isOpen) {
+        envelopeWrapper.classList.add('open');
+        instruction.textContent = "🩷🩷🩷";
+
+        // Start playing music automatically when opening the envelope if not already playing
+        if (!isPlaying) {
+          toggleMusic();
+        }
+      } else {
+        envelopeWrapper.classList.remove('open');
+        instruction.textContent = "🩷🩷🩷";
+        letterContent.scrollTop = 0;
+      }
+    });
+  </script>
+
+</body>
+</html>
